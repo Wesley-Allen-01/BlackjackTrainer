@@ -114,5 +114,15 @@ describe('basicStrategy', () => {
       expect(isBasicStrategyCorrect(Action.Split, Action.Stand)).toBe(false);
     });
   });
+
+  describe('additionalTests', () => {
+    it("Should return correct action for j4vsk test case", () => {
+      playerHand.addCard(createCard(Suit.Clubs, Rank.Jack));
+      playerHand.addCard(createCard(Suit.Clubs, Rank.Four));
+      dealerUpcard = createCard(Suit.Clubs, Rank.King);
+      const recommendation = recommendAction(playerHand, dealerUpcard, [Action.Hit, Action.Stand, Action.Double]);
+      expect(recommendation).toBe(Action.Hit);
+    });
+  })
 });
 

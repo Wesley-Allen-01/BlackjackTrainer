@@ -14,6 +14,8 @@ import { type StrategyTable, type PlayerSituation, type DealerUpcard, type PairR
  * @returns DealerUpcard value
  */
 function getDealerUpcardValue(card: Card): DealerUpcard {
+  if (card.rank === Rank.Ace) return 'A';
+  if (card.rank === Rank.Jack || card.rank === Rank.Queen || card.rank === Rank.King) return '10';
   return card.rank as DealerUpcard;
 }
 
@@ -360,6 +362,7 @@ export function recommendAction(
 ): Action {
   const situation = getPlayerSituation(playerHand, dealerUpcard);
   const table = getBasicStrategyTable();
+
   if (situation.isPair) {
     return table.pairs[situation.pairRank as PairRank][getDealerUpcardValue(dealerUpcard)];
   } else if (situation.isSoft) {
