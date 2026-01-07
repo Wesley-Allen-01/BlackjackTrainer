@@ -1,0 +1,64 @@
+.table {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.table h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.game-area {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin-bottom: 30px;
+}
+
+.dealer-area,
+.player-area {
+  text-align: center;
+}
+
+.dealer-area h2,
+.player-area h2 {
+  margin-bottom: 16px;
+  color: #555;
+}
+
+.hand {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.hand-total {
+  font-size: 18px;
+  font-weight: bold;
+  color: #666;
+}
+
+.new-hand-button {
+  display: block;
+  margin: 20px auto;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  background: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.new-hand-button:hover {
+  background: #1976d2;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
