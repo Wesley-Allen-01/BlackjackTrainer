@@ -1,7 +1,7 @@
 import { type Hand } from '../hand';
 import { type Card, Rank, getRankValue } from '../card';
 import { Action, getAllowedActions } from '../actions';
-import { type StrategyTable, type PlayerSituation, type DealerUpcard, type PairRank } from './types';
+import { type StrategyTable, type PlayerSituation, type DealerUpcard, type PairRank, type HardTotal, type SoftTotal } from './types';
 
 /**
  * Basic Strategy module - provides strategy recommendations
@@ -363,9 +363,9 @@ export function recommendAction(
   if (situation.isPair) {
     return table.pairs[situation.pairRank as PairRank][getDealerUpcardValue(dealerUpcard)];
   } else if (situation.isSoft) {
-    return table.softTotals[situation.handTotal][getDealerUpcardValue(dealerUpcard)];
+    return table.softTotals[situation.handTotal as SoftTotal][getDealerUpcardValue(dealerUpcard)];
   } else {
-    return table.hardTotals[situation.handTotal][getDealerUpcardValue(dealerUpcard)];
+    return table.hardTotals[situation.handTotal as HardTotal][getDealerUpcardValue(dealerUpcard)];
   }
 }
 
@@ -379,6 +379,6 @@ export function isBasicStrategyCorrect(
   playerAction: Action,
   recommendedAction: Action
 ): boolean {
-  throw new Error('TODO: Implement isBasicStrategyCorrect');
+  return playerAction === recommendedAction;
 }
 
