@@ -19,7 +19,13 @@ import { HandResult } from './gameState';
  * @returns The hand result
  */
 export function resolveHand(playerHand: Hand, dealerHand: Hand): HandResult {
-  throw new Error('TODO: Implement resolveHand');
+  if (playerHand.isBusted()) return HandResult.DealerWin;
+  if (dealerHand.isBusted()) return HandResult.PlayerWin;
+  if (playerHand.isBlackjack() && !dealerHand.isBlackjack()) return HandResult.PlayerBlackjack;
+  if (!playerHand.isBlackjack() && dealerHand.isBlackjack()) return HandResult.DealerBlackjack;
+  if (playerHand.getBestTotal() > dealerHand.getBestTotal()) return HandResult.PlayerWin;
+  if (playerHand.getBestTotal() < dealerHand.getBestTotal()) return HandResult.DealerWin;
+  return HandResult.Push;
 }
 
 /**
@@ -31,6 +37,8 @@ export function resolveHand(playerHand: Hand, dealerHand: Hand): HandResult {
  * @returns Score change (+10, -10, or 0)
  */
 export function calculateScore(result: HandResult): number {
-  throw new Error('TODO: Implement calculateScore');
+  if (result === HandResult.PlayerWin || result === HandResult.PlayerBlackjack) return 10;
+  if (result === HandResult.DealerWin || result === HandResult.DealerBlackjack) return -10;
+  return 0;
 }
 

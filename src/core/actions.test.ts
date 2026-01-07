@@ -30,7 +30,7 @@ describe('actions', () => {
       expect(canHit(hand)).toBe(false);
     });
 
-    it('should return true for hand with 21 but not blackjack', () => {
+    it('should return false for hand with 21 but not blackjack', () => {
       hand.addCard(createCard(Suit.Hearts, Rank.Seven));
       hand.addCard(createCard(Suit.Spades, Rank.Seven));
       hand.addCard(createCard(Suit.Diamonds, Rank.Seven));

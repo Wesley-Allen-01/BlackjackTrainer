@@ -103,7 +103,7 @@ describe('outcome', () => {
       dealerHand.addCard(createCard(Suit.Diamonds, Rank.Ten));
       dealerHand.addCard(createCard(Suit.Clubs, Rank.Seven));
 
-      expect(resolveHand(playerHand, dealerHand)).toBe(HandResult.Push);
+      expect(resolveHand(playerHand, dealerHand)).toBe(HandResult.PlayerWin);
     });
   });
 

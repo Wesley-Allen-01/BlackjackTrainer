@@ -129,7 +129,12 @@ export function addCardToPlayerHand(state: GameState, card: Card): GameState {
  * @returns New game state with card added to dealer hand
  */
 export function addCardToDealerHand(state: GameState, card: Card): GameState {
-  throw new Error('TODO: Implement addCardToDealerHand');
+  const newState = { ...state };
+  const newHand = new Hand();
+  newHand.addCard(card);
+  state.dealerHand.getCards().forEach(card => newHand.addCard(card));
+  newState.dealerHand = newHand;
+  return newState;
 }
 
 /**
@@ -140,7 +145,15 @@ export function addCardToDealerHand(state: GameState, card: Card): GameState {
  * @returns New game state with updated score
  */
 export function updateScore(state: GameState, result: HandResult): GameState {
-  throw new Error('TODO: Implement updateScore');
+  const newState = { ...state };
+  if (result === HandResult.PlayerWin) {
+    newState.score += 10;
+  } else if (result === HandResult.DealerWin) {
+    newState.score -= 10;
+  } else if (result === HandResult.Push) {
+    newState.score += 0;
+  }
+  return newState;
 }
 
 /**
@@ -153,6 +166,11 @@ export function recordBasicStrategyDecision(
   state: GameState,
   isCorrect: boolean
 ): GameState {
-  throw new Error('TODO: Implement recordBasicStrategyDecision');
+  const newState = { ...state };
+  newState.basicStrategyStats.totalDecisions++;
+  if (isCorrect) {
+    newState.basicStrategyStats.correctDecisions++;
+  }
+  return newState;
 }
 

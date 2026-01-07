@@ -18,6 +18,13 @@ import { type Hand } from './hand';
  * @returns True if dealer should hit
  */
 export function shouldDealerHit(hand: Hand): boolean {
-  throw new Error('TODO: Implement shouldDealerHit');
+  const hard_total = hand.getHardTotal();
+  const soft_total = hand.getSoftTotal();
+  if (hand.isBlackjack()) return false;
+  if (hard_total <= 16) return true;
+  if (soft_total !== null && soft_total <= 17) return true;
+  
+  return false;
+  
 }
 

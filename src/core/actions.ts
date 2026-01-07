@@ -19,7 +19,7 @@ export enum Action {
  * @returns True if hit is allowed
  */
 export function canHit(hand: Hand): boolean {
-  throw new Error('TODO: Implement canHit');
+  return !hand.isBusted() && !hand.isBlackjack() && hand.getBestTotal() < 21;
 }
 
 /**
@@ -29,7 +29,7 @@ export function canHit(hand: Hand): boolean {
  * @returns True if stand is allowed
  */
 export function canStand(hand: Hand): boolean {
-  throw new Error('TODO: Implement canStand');
+  return true;
 }
 
 /**
@@ -39,7 +39,7 @@ export function canStand(hand: Hand): boolean {
  * @returns True if double is allowed
  */
 export function canDouble(hand: Hand): boolean {
-  throw new Error('TODO: Implement canDouble');
+  return hand.getCardCount() === 2 && !hand.isBusted() && !hand.isBlackjack();
 }
 
 /**
@@ -49,7 +49,7 @@ export function canDouble(hand: Hand): boolean {
  * @returns True if split is allowed
  */
 export function canSplit(hand: Hand): boolean {
-  throw new Error('TODO: Implement canSplit');
+  return hand.getCardCount() === 2 && hand.canSplit();
 }
 
 /**
@@ -58,6 +58,11 @@ export function canSplit(hand: Hand): boolean {
  * @returns Array of allowed actions
  */
 export function getAllowedActions(hand: Hand): Action[] {
-  throw new Error('TODO: Implement getAllowedActions');
+  const actions: Action[] = [];
+  if (canHit(hand)) actions.push(Action.Hit);
+  if (canStand(hand)) actions.push(Action.Stand);
+  if (canDouble(hand)) actions.push(Action.Double);
+  if (canSplit(hand)) actions.push(Action.Split);
+  return actions;
 }
 
