@@ -115,7 +115,10 @@ export function transitionToResolveHand(
  */
 export function addCardToPlayerHand(state: GameState, card: Card): GameState {
   const newState = { ...state };
-  newState.playerHand.addCard(card);
+  const newHand = new Hand();
+  newHand.addCard(card);
+  state.playerHand.getCards().forEach(card => newHand.addCard(card));
+  newState.playerHand = newHand;
   return newState;
 }
 
