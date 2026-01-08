@@ -6,6 +6,7 @@ import { Card } from './card';
  */
 
 export enum GamePhase {
+  PreGame = 'pre_game',
   NewHand = 'new_hand',
   PlayerTurn = 'player_turn',
   DealerTurn = 'dealer_turn',
@@ -39,7 +40,7 @@ export enum HandResult {
  */
 export function createInitialGameState(): GameState {
   return {
-    phase: GamePhase.NewHand,
+    phase: GamePhase.PreGame,
     playerHand: new Hand(),
     dealerHand: new Hand(),
     dealerUpcard: null,
@@ -69,6 +70,7 @@ export function transitionToNewHand(
   state.dealerHand.addCard(dealerCards[0]);
   state.dealerHand.addCard(dealerCards[1]);
   state.dealerUpcard = dealerCards[0];
+  state.phase = GamePhase.NewHand;
   return state;
 }
 

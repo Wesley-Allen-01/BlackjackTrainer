@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Deck } from '../core/deck';
 import {
   GameState,
@@ -16,7 +16,7 @@ import {
 } from '../core/gameState';
 import { Action, getAllowedActions } from '../core/actions';
 import { shouldDealerHit } from '../core/dealer';
-import { resolveHand, calculateScore } from '../core/outcome';
+import { resolveHand } from '../core/outcome';
 import { recommendAction, isBasicStrategyCorrect } from '../core/strategy/basicStrategy';
 import { Card } from './Card';
 import { Actions } from './Actions';
@@ -28,13 +28,40 @@ export function Table() {
   const [deck] = useState(() => new Deck());
   const [lastDecisionFeedback, setLastDecisionFeedback] = useState<string | null>(null);
 
-  // Start a new hand
+  // Start training session - resets stats and starts first hand
+  const startTraining = () => {
+    deck.reshuffle();
+    const playerCards = [deck.deal(), deck.deal()];
+    const dealerCards = [deck.deal(), deck.deal()];
+    
+    // Reset everything including basicStrategyStats
+    let newState = createInitialGameState();
+    newState = transitionToNewHand(newState, playerCards, dealerCards);
+    
+    // Check for immediate blackjacks
+    if (newState.playerHand.isBlackjack() || newState.dealerHand.isBlackjack()) {
+      const result = resolveHand(newState.playerHand, newState.dealerHand);
+      newState = transitionToResolveHand(newState, result);
+      newState = updateScore(newState, result);
+    } else {
+      newState = transitionToPlayerTurn(newState);
+    }
+    
+    setGameState(newState);
+    setLastDecisionFeedback(null);
+  };
+
+  // Start a new hand (preserves stats)
   const startNewHand = () => {
     deck.reshuffle();
     const playerCards = [deck.deal(), deck.deal()];
     const dealerCards = [deck.deal(), deck.deal()];
     
-    let newState = createInitialGameState();
+    // Preserve basicStrategyStats from current state
+    let newState = {
+      ...createInitialGameState(),
+      basicStrategyStats: { ...gameState.basicStrategyStats }
+    };
     newState = transitionToNewHand(newState, playerCards, dealerCards);
     
     // Check for immediate blackjacks
@@ -55,13 +82,11 @@ export function Table() {
     if (gameState.phase !== GamePhase.PlayerTurn) return;
 
     let newState = { ...gameState };
-    const allowedActions = getAllowedActions(gameState.playerHand);
     
     // Get basic strategy recommendation
     const recommendedAction = recommendAction(
       gameState.playerHand,
       gameState.dealerUpcard!,
-      allowedActions
     );
     const isCorrect = isBasicStrategyCorrect(action, recommendedAction);
     
@@ -134,18 +159,26 @@ export function Table() {
         100
       : 0;
 
-  // Start first hand on mount
-  useEffect(() => {
-    startNewHand();
-  }, []);
-
   const showDealerHoleCard = gameState.phase === GamePhase.ResolveHand;
+  const isPreGame = gameState.phase === GamePhase.PreGame;
 
   return (
     <div className="table">
       <h1>Blackjack Trainer</h1>
       
-      <div className="game-area">
+      {isPreGame && (
+        <div className="start-training-container">
+          <p className="start-training-message">
+            Practice your basic strategy skills. Click below to begin training.
+          </p>
+          <button className="start-training-button" onClick={startTraining}>
+            Start Training
+          </button>
+        </div>
+      )}
+      
+      {!isPreGame && (
+        <div className="game-area">
         <div className="dealer-area">
           <h2>Dealer</h2>
           <div className="hand">
@@ -176,6 +209,7 @@ export function Table() {
           </div>
         </div>
       </div>
+      )}
 
       {gameState.phase === GamePhase.PlayerTurn && (
         <Actions
@@ -190,12 +224,14 @@ export function Table() {
         </button>
       )}
 
-      <StatusPanel
-        score={gameState.score}
-        handResult={gameState.handResult}
-        basicStrategyCorrectness={basicStrategyCorrectness}
-        lastDecisionFeedback={lastDecisionFeedback}
-      />
+      {!isPreGame && (
+        <StatusPanel
+          score={gameState.score}
+          handResult={gameState.handResult}
+          basicStrategyCorrectness={basicStrategyCorrectness}
+          lastDecisionFeedback={lastDecisionFeedback}
+        />
+      )}
     </div>
   );
 }

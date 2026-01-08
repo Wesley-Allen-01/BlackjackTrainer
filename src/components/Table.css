@@ -62,3 +62,32 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.start-training-container {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.start-training-message {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.start-training-button {
+  display: inline-block;
+  padding: 16px 32px;
+  font-size: 18px;
+  font-weight: bold;
+  background: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.start-training-button:hover {
+  background: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}

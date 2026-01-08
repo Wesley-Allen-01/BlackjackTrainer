@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import {
   GamePhase,
   HandResult,
@@ -11,16 +11,14 @@ import {
   addCardToDealerHand,
   updateScore,
   recordBasicStrategyDecision,
-  type GameState,
 } from './gameState';
-import { Hand } from './hand';
 import { Suit, Rank, createCard } from './card';
 
 describe('gameState', () => {
   describe('createInitialGameState', () => {
-    it('should create state with new_hand phase', () => {
+    it('should create state with pre_game phase', () => {
       const state = createInitialGameState();
-      expect(state.phase).toBe(GamePhase.NewHand);
+      expect(state.phase).toBe(GamePhase.PreGame);
     });
 
     it('should initialize empty hands', () => {
@@ -79,6 +77,32 @@ describe('gameState', () => {
 
       const newState = transitionToNewHand(state, [], dealerCards);
       expect(newState.dealerUpcard).toEqual(dealerCards[0]);
+    });
+
+    it('should preserve basicStrategyStats when transitioning to new hand', () => {
+      let state = createInitialGameState();
+      // Accumulate some stats
+      state = recordBasicStrategyDecision(state, true);
+      state = recordBasicStrategyDecision(state, false);
+      state = recordBasicStrategyDecision(state, true);
+      
+      expect(state.basicStrategyStats.totalDecisions).toBe(3);
+      expect(state.basicStrategyStats.correctDecisions).toBe(2);
+
+      const playerCards = [
+        createCard(Suit.Hearts, Rank.Ace),
+        createCard(Suit.Spades, Rank.King),
+      ];
+      const dealerCards = [
+        createCard(Suit.Diamonds, Rank.Seven),
+        createCard(Suit.Clubs, Rank.Eight),
+      ];
+
+      const newState = transitionToNewHand(state, playerCards, dealerCards);
+      
+      // Stats should be preserved
+      expect(newState.basicStrategyStats.totalDecisions).toBe(3);
+      expect(newState.basicStrategyStats.correctDecisions).toBe(2);
     });
   });
 
