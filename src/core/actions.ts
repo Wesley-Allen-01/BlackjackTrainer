@@ -1,5 +1,4 @@
 import { type Hand } from './hand';
-import { type GameState } from './gameState';
 
 /**
  * Actions module - defines player actions and validation
@@ -22,15 +21,6 @@ export function canHit(hand: Hand): boolean {
   return !hand.isBusted() && !hand.isBlackjack() && hand.getBestTotal() < 21;
 }
 
-/**
- * TODO: Check if player can stand
- * Player can always stand (even if busted, though it's pointless)
- * @param hand - Player's hand
- * @returns True if stand is allowed
- */
-export function canStand(hand: Hand): boolean {
-  return true;
-}
 
 /**
  * TODO: Check if player can double
@@ -60,7 +50,7 @@ export function canSplit(hand: Hand): boolean {
 export function getAllowedActions(hand: Hand): Action[] {
   const actions: Action[] = [];
   if (canHit(hand)) actions.push(Action.Hit);
-  if (canStand(hand)) actions.push(Action.Stand);
+  actions.push(Action.Stand);
   if (canDouble(hand)) actions.push(Action.Double);
   if (canSplit(hand)) actions.push(Action.Split);
   return actions;

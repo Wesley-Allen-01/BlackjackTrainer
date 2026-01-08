@@ -344,12 +344,10 @@ function getPlayerSituation(hand: Hand, dealerUpcard: Card): PlayerSituation {
 }
 
 /**
- * TODO: Recommend action based on basic strategy
  * Looks up the recommended action from the strategy table based on player situation
  * If recommended action is not allowed, falls back to next best option
  * @param playerHand - Player's hand
  * @param dealerUpcard - Dealer's upcard
- * @param allowedActions - Actions currently allowed
  * @returns Recommended action
  */
 export function recommendAction(

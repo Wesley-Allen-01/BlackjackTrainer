@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { Action, canHit, canStand, canDouble, canSplit, getAllowedActions } from './actions';
+import { Action, canHit, canDouble, canSplit, getAllowedActions } from './actions';
 import { Hand } from './hand';
 import { Suit, Rank, createCard } from './card';
 
@@ -35,19 +35,6 @@ describe('actions', () => {
       hand.addCard(createCard(Suit.Spades, Rank.Seven));
       hand.addCard(createCard(Suit.Diamonds, Rank.Seven));
       expect(canHit(hand)).toBe(false); // 21 means can't hit
-    });
-  });
-
-  describe('canStand', () => {
-    it('should always return true', () => {
-      expect(canStand(hand)).toBe(true);
-      
-      hand.addCard(createCard(Suit.Hearts, Rank.King));
-      expect(canStand(hand)).toBe(true);
-      
-      hand.addCard(createCard(Suit.Spades, Rank.Queen));
-      hand.addCard(createCard(Suit.Diamonds, Rank.Two));
-      expect(canStand(hand)).toBe(true);
     });
   });
 

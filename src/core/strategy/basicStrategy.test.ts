@@ -64,7 +64,6 @@ describe('basicStrategy', () => {
     it('should handle hard totals', () => {
       playerHand.addCard(createCard(Suit.Hearts, Rank.Ten));
       playerHand.addCard(createCard(Suit.Spades, Rank.Seven));
-      const allowedActions = [Action.Hit, Action.Stand];
       
       const recommendation = recommendAction(playerHand, dealerUpcard);
       expect([Action.Hit, Action.Stand]).toContain(recommendation);
@@ -91,8 +90,6 @@ describe('basicStrategy', () => {
     it('should fall back to allowed action if recommended is not allowed', () => {
       playerHand.addCard(createCard(Suit.Hearts, Rank.Ten));
       playerHand.addCard(createCard(Suit.Spades, Rank.Seven));
-      // Only allow stand (e.g., after hitting)
-      const allowedActions = [Action.Stand];
       
       const recommendation = recommendAction(playerHand, dealerUpcard);
       expect(recommendation).toBe(Action.Stand);
