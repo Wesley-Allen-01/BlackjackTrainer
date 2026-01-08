@@ -57,7 +57,7 @@ describe('basicStrategy', () => {
       playerHand.addCard(createCard(Suit.Spades, Rank.Eight));
       const allowedActions = [Action.Hit, Action.Stand, Action.Double];
       
-      const recommendation = recommendAction(playerHand, dealerUpcard, allowedActions);
+      const recommendation = recommendAction(playerHand, dealerUpcard);
       expect(allowedActions).toContain(recommendation);
     });
 
@@ -66,7 +66,7 @@ describe('basicStrategy', () => {
       playerHand.addCard(createCard(Suit.Spades, Rank.Seven));
       const allowedActions = [Action.Hit, Action.Stand];
       
-      const recommendation = recommendAction(playerHand, dealerUpcard, allowedActions);
+      const recommendation = recommendAction(playerHand, dealerUpcard);
       expect([Action.Hit, Action.Stand]).toContain(recommendation);
     });
 
@@ -75,7 +75,7 @@ describe('basicStrategy', () => {
       playerHand.addCard(createCard(Suit.Spades, Rank.Seven));
       const allowedActions = [Action.Hit, Action.Stand, Action.Double];
       
-      const recommendation = recommendAction(playerHand, dealerUpcard, allowedActions);
+      const recommendation = recommendAction(playerHand, dealerUpcard);
       expect(allowedActions).toContain(recommendation);
     });
 
@@ -84,7 +84,7 @@ describe('basicStrategy', () => {
       playerHand.addCard(createCard(Suit.Spades, Rank.Seven));
       const allowedActions = [Action.Hit, Action.Stand, Action.Double, Action.Split];
       
-      const recommendation = recommendAction(playerHand, dealerUpcard, allowedActions);
+      const recommendation = recommendAction(playerHand, dealerUpcard);
       expect(allowedActions).toContain(recommendation);
     });
 
@@ -94,7 +94,7 @@ describe('basicStrategy', () => {
       // Only allow stand (e.g., after hitting)
       const allowedActions = [Action.Stand];
       
-      const recommendation = recommendAction(playerHand, dealerUpcard, allowedActions);
+      const recommendation = recommendAction(playerHand, dealerUpcard);
       expect(recommendation).toBe(Action.Stand);
     });
   });
@@ -120,7 +120,7 @@ describe('basicStrategy', () => {
       playerHand.addCard(createCard(Suit.Clubs, Rank.Jack));
       playerHand.addCard(createCard(Suit.Clubs, Rank.Four));
       dealerUpcard = createCard(Suit.Clubs, Rank.King);
-      const recommendation = recommendAction(playerHand, dealerUpcard, [Action.Hit, Action.Stand, Action.Double]);
+      const recommendation = recommendAction(playerHand, dealerUpcard);
       expect(recommendation).toBe(Action.Hit);
     });
   })

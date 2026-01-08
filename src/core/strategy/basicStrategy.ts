@@ -1,6 +1,6 @@
 import { type Hand } from '../hand';
-import { type Card, Rank, getRankValue } from '../card';
-import { Action, getAllowedActions } from '../actions';
+import { type Card, Rank } from '../card';
+import { Action } from '../actions';
 import { type StrategyTable, type PlayerSituation, type DealerUpcard, type PairRank, type HardTotal, type SoftTotal } from './types';
 
 /**
@@ -8,7 +8,6 @@ import { type StrategyTable, type PlayerSituation, type DealerUpcard, type PairR
  */
 
 /**
- * TODO: Get dealer upcard value for strategy lookup
  * Converts Card to DealerUpcard type ('2'-'10' or 'A')
  * @param card - Dealer's upcard
  * @returns DealerUpcard value
@@ -20,9 +19,7 @@ function getDealerUpcardValue(card: Card): DealerUpcard {
 }
 
 /**
- * TODO: Get hardcoded basic strategy table
- * This should return a StrategyTable with all the basic strategy decisions
- * For now, return an empty structure - user will fill in the values
+ * Returns a StrategyTable with all the basic strategy decisions
  * @returns Complete basic strategy table
  */
 export function getBasicStrategyTable(): StrategyTable {
@@ -331,7 +328,7 @@ export function getBasicStrategyTable(): StrategyTable {
 }
 
 /**
- * TODO: Determine player situation for strategy lookup
+ * Determines player situation for strategy lookup
  * @param hand - Player's hand
  * @param dealerUpcard - Dealer's upcard
  * @returns PlayerSituation object
@@ -358,7 +355,6 @@ function getPlayerSituation(hand: Hand, dealerUpcard: Card): PlayerSituation {
 export function recommendAction(
   playerHand: Hand,
   dealerUpcard: Card,
-  allowedActions: Action[]
 ): Action {
   const situation = getPlayerSituation(playerHand, dealerUpcard);
   const table = getBasicStrategyTable();
